@@ -75,6 +75,7 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 /*
  EJERCICIO 1
 Autor: Victor Belaunde
+Brief: Realizar una función que inicialice un vector con ceros
  */
 
 void zeros (uint32_t * vector, uint32_t longitud){
@@ -87,6 +88,8 @@ void zeros (uint32_t * vector, uint32_t longitud){
 /*
  EJERCICIO 2
  Autor: Victor Belaunde
+ Brief: Realizar una función que realice el producto de un vector y un escalar (por ejemplo,
+ podría servir para cambiar el nivel de amplitud de una señal)
  */
 void productoEscalar32(uint32_t * vectorIn, uint32_t * vectorOut, uint32_t longitud, uint32_t escalar)
 {
@@ -95,6 +98,37 @@ void productoEscalar32(uint32_t * vectorIn, uint32_t * vectorOut, uint32_t longi
 	}
 }
 
+/*
+ EJERCICIO 3
+ Autor: Victor Belaunde
+ Brief: Realizar una función que realice el producto de un vector y un escalar pero de 16bit
+ */
+
+void productoEscalar16(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar)
+{
+	for (uint32_t i=0; i<longitud; i++) {
+		vectorOut[i] = vectorIn[i] * escalar;
+	}
+}
+
+/*
+ EJERCICIO 4
+ Autor: Victor Belaunde
+ Brief: Adaptar el ejercicio 3 para saturar el resultado del producto a 12 bits:
+ return: none
+ */
+void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar)
+{
+	for (uint32_t i=0; i<longitud; i++) {
+		if (vectorIn[i] * escalar > 4096)
+		{
+			vectorOut[i] = 4096;
+		}
+		else{
+			vectorOut[i] = vectorIn[i] * escalar;
+		}
+	}
+}
 
 
 
