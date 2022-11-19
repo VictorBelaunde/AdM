@@ -45,6 +45,10 @@ R:
 ### 10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado a funciones y su retorno?
 R: La pila se utiliza para almacenar en memoria en modo LiFo (ultimo en llagar - primero en salir) para utilizar el stack de memoria y son incorporadas las palabras de 32 bits con PUSH y sacado con POP para luego pasarlo al registro y operar. Un puntero me indica la dirección de memoria utilizada y es utilizado tanto para incorporar (SP + 1) o leer (SP, que luego decrece en 1 su dirección). Cuando se ejecuta una función debemos preservar los valores de los registros haciendo un PUSH al comenzar y luego un POP antes de salir, si es que esa función utiliza registros sino corremos el riesgo de perder los valores originales de la aplicación.
 
+###13. ¿Cómo se implementan las prioridades de las interrupciones? Dé un ejemplo
+R: Las interrupciones pueden ser internas o externas (producto de un evento espontaneo), para que el micro sepa a que interrupción debe atender antes que otras es que cada una de ellas tiene seteado el nivel de prioridad que facilita su manejo. De existir dos interrupciones con la misma prioridad, se da paso al seteo del nivel de sub prioridad (sub priorities). El cortex en particular tiene 256 niveles de prioridad y quien es el encargado de gestionar y controlar estas interrupciones con sus prioridades es NVIC, existen interrupciones ya preconfiguradas con niveles muy bajos (negativos) con maxima prioridad. Ejemplo "Reset con prioridad -3".
 
+###14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
+R: El CMSIS es una capa de abstracción del hardware facilitando la programación y uso de los recursos del micro. Genera una capa de software que separa al programador del hardware permitiendo en un nivel superior y con una interface unificada para todos los cortex. Quien provee es CMSIS es el mismo ARM para que cada fabricante tenga la posibilidad de unificar su hardware con el mercado.
 
 
