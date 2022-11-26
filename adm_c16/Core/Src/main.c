@@ -41,7 +41,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 uint32_t * vector[]; //Vector del ejercicio 1
-uint32_t longitud = 6; //Longitud vector ejercicio 1
+uint32_t longitud = 4; //Longitud vector ejercicio 1
+uint32_t * vectorOut[];
 
 
 ETH_TxPacketConfig TxConfig;
@@ -64,8 +65,13 @@ static void MX_GPIO_Init(void);
 static void MX_ETH_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
-/* USER CODE BEGIN PFP */
 
+/* USER CODE BEGIN PFP */
+//Función asembler Eje 1
+void asm_zeros (uint32_t * vector, uint32_t longitud);   // Función del ejercicio 1 Asembler
+
+//Funcion asembler Eje 2
+void asm_productoEscalar32(uint32_t * vectorIn, uint32_t * vectorOut, uint32_t longitud, uint32_t escalar);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -122,7 +128,7 @@ void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t long
 	for (uint32_t i=0; i<longitud; i++) {
 		if (vectorIn[i] * escalar > 4096)
 		{
-			vectorOut[i] = 4096;
+			vectorOut[i] = 4095; // (2 elevado a la 12) - 1
 		}
 		else{
 			vectorOut[i] = vectorIn[i] * escalar;
@@ -225,6 +231,14 @@ int main(void)
    EJERCICIO 1
    */
   zeros(*vector, longitud);
+
+  uint32_t vector[4] = { 4, 5, 6, 7 };    // Agregar vector de prueba
+  uint32_t vectorOut[4] = { 0, 0, 0, 0 };
+  uint32_t escalar = 10;
+
+  asm_zeros (vector, 4);
+  // Agregar llamado a función
+  asm_productoEscalar32(vector, vectorOut, 4, 10);
 
 
 

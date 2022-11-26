@@ -7,3 +7,4 @@ org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:adm_c16\ Debug/activeLaunchMode
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:adm_c16\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:freertos_app_Example4_6/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:freertos_app_Example4_6/activeLaunchTarget=null\:---
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:freertos_app_Example5_6/activeLaunchMode=run

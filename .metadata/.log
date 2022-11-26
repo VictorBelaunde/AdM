@@ -36,3 +36,6 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/Victo
 
 !ENTRY org.eclipse.cdt.core 1 0 2022-11-18 22:50:29.175
 !MESSAGE Indexed 'adm_c16' (26 sources, 108 headers) in 3,95 sec: 9.978 declarations; 42.112 references; 2 unresolved inclusions; 42 syntax errors; 147 unresolved names (0,28 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-11-21 20:55:45.645
+!MESSAGE Indexed 'freertos_app_Example5_6' (42 sources, 147 headers) in 2,88 sec: 14.642 declarations; 77.461 references; 2 unresolved inclusions; 152 syntax errors; 153 unresolved names (0,17 %)
