@@ -51,4 +51,25 @@ R: Las interrupciones pueden ser internas o externas (producto de un evento espo
 ###14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
 R: El CMSIS es una capa de abstracción del hardware facilitando la programación y uso de los recursos del micro. Genera una capa de software que separa al programador del hardware permitiendo en un nivel superior y con una interface unificada para todos los cortex. Quien provee es CMSIS es el mismo ARM para que cada fabricante tenga la posibilidad de unificar su hardware con el mercado.
 
+###15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo
+R:
 
+###17. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
+R:
+
+###16. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
+R:
+
+###17. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
+R: Los micros ARM Cortex incluye un timer llamado SysTick que implementan los fabricantes. Está pensado para usarlo como base de tiempos, así que es perfecto para el concepto de temporización y su aprovechamiento en las tareas como en SO como FreeRTOS.
+Este periférico usa un contador descendente, cuando la cuenta está en 0 y dispara un evento, el registro de cuenta se recarga con un valor de “precarga” establecido por el programador y seguirá descontando a partir de ese valor.
+
+###18. ¿Qué funciones cumple la unidad de protección de memoria (MPU)?
+R:La Unidad de protección de memoria es una unidad programable que permite que el programa gestione los permisos de acceso a la memoria. Supervisa las transacciones, incluidas las búsquedas de instrucciones y los accesos a datos del procesador, y puede detectar una violación de acceso. El  MPU permite que el programa privilegiado defina regiones de memoria y asigne permisos de acceso a memoria.
+
+##ISA
+###1. ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo 
+R: Son complemento de las instrucciones y se utilizan para comprobar resultados, tareas, operaciones, etc. Un ejemplo es  "ANDNE r0,r0,r1" Realiza la suna si Z=0.
+
+###2. ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo
+R: Este sufijo es para realizar la operacion y luego actualizar el flag de estado. eje "adds r0, 1".
