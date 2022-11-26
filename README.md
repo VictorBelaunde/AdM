@@ -45,31 +45,31 @@ R:
 ### 10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado a funciones y su retorno?
 R: La pila se utiliza para almacenar en memoria en modo LiFo (ultimo en llagar - primero en salir) para utilizar el stack de memoria y son incorporadas las palabras de 32 bits con PUSH y sacado con POP para luego pasarlo al registro y operar. Un puntero me indica la dirección de memoria utilizada y es utilizado tanto para incorporar (SP + 1) o leer (SP, que luego decrece en 1 su dirección). Cuando se ejecuta una función debemos preservar los valores de los registros haciendo un PUSH al comenzar y luego un POP antes de salir, si es que esa función utiliza registros sino corremos el riesgo de perder los valores originales de la aplicación.
 
-###13. ¿Cómo se implementan las prioridades de las interrupciones? Dé un ejemplo
+### 13. ¿Cómo se implementan las prioridades de las interrupciones? Dé un ejemplo
 R: Las interrupciones pueden ser internas o externas (producto de un evento espontaneo), para que el micro sepa a que interrupción debe atender antes que otras es que cada una de ellas tiene seteado el nivel de prioridad que facilita su manejo. De existir dos interrupciones con la misma prioridad, se da paso al seteo del nivel de sub prioridad (sub priorities). El cortex en particular tiene 256 niveles de prioridad y quien es el encargado de gestionar y controlar estas interrupciones con sus prioridades es NVIC, existen interrupciones ya preconfiguradas con niveles muy bajos (negativos) con maxima prioridad. Ejemplo "Reset con prioridad -3".
 
-###14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
+### 14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
 R: El CMSIS es una capa de abstracción del hardware facilitando la programación y uso de los recursos del micro. Genera una capa de software que separa al programador del hardware permitiendo en un nivel superior y con una interface unificada para todos los cortex. Quien provee es CMSIS es el mismo ARM para que cada fabricante tenga la posibilidad de unificar su hardware con el mercado.
 
-###15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo
+### 15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo
 R:
 
-###17. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
+### 17. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
 R:
 
-###16. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
+### 16. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
 R:
 
-###17. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
+### 17. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
 R: Los micros ARM Cortex incluye un timer llamado SysTick que implementan los fabricantes. Está pensado para usarlo como base de tiempos, así que es perfecto para el concepto de temporización y su aprovechamiento en las tareas como en SO como FreeRTOS.
 Este periférico usa un contador descendente, cuando la cuenta está en 0 y dispara un evento, el registro de cuenta se recarga con un valor de “precarga” establecido por el programador y seguirá descontando a partir de ese valor.
 
-###18. ¿Qué funciones cumple la unidad de protección de memoria (MPU)?
+### 18. ¿Qué funciones cumple la unidad de protección de memoria (MPU)?
 R:La Unidad de protección de memoria es una unidad programable que permite que el programa gestione los permisos de acceso a la memoria. Supervisa las transacciones, incluidas las búsquedas de instrucciones y los accesos a datos del procesador, y puede detectar una violación de acceso. El  MPU permite que el programa privilegiado defina regiones de memoria y asigne permisos de acceso a memoria.
 
-##ISA
-###1. ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo 
+## ISA
+### 1. ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo 
 R: Son complemento de las instrucciones y se utilizan para comprobar resultados, tareas, operaciones, etc. Un ejemplo es  "ANDNE r0,r0,r1" Realiza la suna si Z=0.
 
-###2. ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo
+### 2. ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo
 R: Este sufijo es para realizar la operacion y luego actualizar el flag de estado. eje "adds r0, 1".
