@@ -8,6 +8,7 @@
 .global asm_zeros
 .global asm_productoEscalar32
 .global asm_productoEscalar16
+.global asm_productoEscalar12
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -126,7 +127,7 @@
 
 .thumb_func               				@ Se avisa al emsablador que esta es una funcion
     asm_productoEscalar16:
-    		push {r4}					@ Guarda el registro en la memoria para pisar lo que tenia Eje push {r4-r6} guarda los 3 reg.
+    		push {r4}					@ Guarda el registro en la memoria para no pisar la info. Eje push {r4-r6} guarda los 3 reg.
     		multiplica16_bucle:
     			ldrh r4, [r0], #2		@ Carga r4 con el vectorIn y suma 2 posiciones el sp(16bit)
     			mul r4, r3				@ Utilizo la instruccion mul que multiplica y actuliza r4
@@ -142,4 +143,42 @@
 @		vectorOut[i] = vectorIn[i] * escalar;
 @	}
 @ }
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C": Ejercicio 4
+@
+@ Parametros recibidos:
+@   r0: dirección de memoria de inicio del vectorIn
+@	r1: dirección de memoria de inicio del vectorOut
+@	r2: longitud
+@   r3: escalar
+@ Variables
+@	r4: registro para guardar el resultado intermedio
+.thumb_func
+	asm_productoEscalar12:
+		push {r4}				@ Guarda el registro en la memoria para no pisar la info
+		multiplica12_bucle:
+			ldrh r4, [r0], #2	@ Guardo en r4 los primeros 16bit de r0 y suma 2 posiciones
+			mul r4, r3			@ Multiplica r4 con el escalar y actualiza r4
+			usat r4, #12, r4	@ Uso la instruccion "usat" para saturar a 12bit y lo guardo en r4. Eje USAT <Rd>,#,<Rn>
+			strh r4, [r1], #2	@ Cargo en memoria el resultado de r4 y actualiza el sp de r1(16bit)
+			subs r2, 1			@ Resto 1 al contenido de r2
+			bne multiplica12_bucle
+		pop {r4}
+		bx lr
+@void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar)
+@{
+@	for (uint32_t i=0; i<longitud; i++) {
+@		if (vectorIn[i] * escalar > 4096)
+@		{
+@			vectorOut[i] = 4095; // (2 elevado a la 12) - 1
+@		}
+@		else{
+@			vectorOut[i] = vectorIn[i] * escalar;
+@		}
+@	}
+@}
+@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
