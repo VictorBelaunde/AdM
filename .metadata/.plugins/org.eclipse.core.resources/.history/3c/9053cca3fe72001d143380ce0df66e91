@@ -197,20 +197,8 @@ void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud)
  */
 int32_t max (int32_t * vectorIn, uint32_t longitud)
 {
-	uint32_t valorMaximo = 0;
-	uint32_t posicionMaximo = 0;
-	for(uint32_t i=0; i<longitud; i++)
-	{
-		if (vectorIn[i] > valorMaximo)
-		{
-			valorMaximo = vectorIn[i];
-			posicionMaximo = i;
-		}
-	}
-	return posicionMaximo;
+
 }
-
-
 
 
 static void PrivilegiosSVC (void)

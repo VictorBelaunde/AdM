@@ -152,6 +152,7 @@ void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t long
  	 	sobre un vector de muestra y carga un segundo con el promedio de esos 10 valores
  return: none
  */
+
 void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn)
 {
 	uint32_t sumaTotal = 0; //La utiliza para acumular los valores del vector
@@ -177,39 +178,6 @@ void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitu
 
 	}
 }
-
-/*
- EJERCICIO 6
- Autor: Victor Belaunde
- Brief: Funcioón que recibe un vector de numeros signados de 32 bits y los "empaqueta" en otro de 16.
- return: none
- */
-void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud)
-{
-
-}
-
-/*
- EJERCICIO 7
- Autor: Victor Belaunde
- Brief: Funcioón que recibe un vector de numeros signados de 32 bits y devuelve la posición del valor maximo
- return: max: posicion donde se encuentra el valor maximo
- */
-int32_t max (int32_t * vectorIn, uint32_t longitud)
-{
-	uint32_t valorMaximo = 0;
-	uint32_t posicionMaximo = 0;
-	for(uint32_t i=0; i<longitud; i++)
-	{
-		if (vectorIn[i] > valorMaximo)
-		{
-			valorMaximo = vectorIn[i];
-			posicionMaximo = i;
-		}
-	}
-	return posicionMaximo;
-}
-
 
 
 
