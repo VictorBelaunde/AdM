@@ -9,7 +9,6 @@
 .global asm_productoEscalar32
 .global asm_productoEscalar16
 .global asm_productoEscalar12
-.global asm_pack32to16
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -181,28 +180,5 @@
 @		}
 @	}
 @}
-@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@ Prototipo en "C": Ejercicio 6
-@
-@ Parametros recibidos:
-@   r0: dirección de memoria de inicio del vectorIn
-@	r1: dirección de memoria de inicio del vectorOut
-@	r2: longitud
-@ Variables
-@	r3: registro para guardar el corrimiento de posiciones a 16bits
-.thumb_func
-	asm_pack32to16:
-		push {r3}					@ Resguardo el valor de r3 en la pila
-		pack32to16_bucle:
-			ldr r3, [r0], #4		@ Cargo en r3 el vectorIn y actualizo posicion 4 lugares
-			lsr r3, r3, 16			@ Shifteo el valor de r3 en 16 posiciones
-			str r3, [r1], #2		@ Cargo en memoria y actualizo posicion en 2 lugares
-			subs r2, 1				@ resto en 1 el registro de longitud
-			bne pack32to16_bucle
-		pop {r3}
-		bx lr
-
+@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

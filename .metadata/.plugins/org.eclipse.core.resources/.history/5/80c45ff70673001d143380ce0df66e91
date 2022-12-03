@@ -195,7 +195,7 @@
 @	r3: registro para guardar el corrimiento de posiciones a 16bits
 .thumb_func
 	asm_pack32to16:
-		push {r3}					@ Resguardo el valor de r3 en la pila
+		push{r3}					@ Resguardo el valor de r3 en la pila
 		pack32to16_bucle:
 			ldr r3, [r0], #4		@ Cargo en r3 el vectorIn y actualizo posicion 4 lugares
 			lsr r3, r3, 16			@ Shifteo el valor de r3 en 16 posiciones
