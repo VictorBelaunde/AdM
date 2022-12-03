@@ -145,41 +145,6 @@ void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t long
 }
 
 
-/*
- EJERCICIO 5
- Autor: Victor Belaunde
- Brief: Funcioón que implementa un filtro de ventana movil de 10 valores
- 	 	sobre un vector de muestra y carga un segundo con el promedio de esos 10 valores
- return: none
- */
-
-void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn)
-{
-	uint32_t sumaTotal = 0; //La utiliza para acumular los valores del vector
-	uint8_t cuentaElementos = 0; //Lo utilizo para calcular el promedio
-	uint8_t ventana = 5; //Si bien no debe ser un numero "magico", sino la mitad de la ventana de valores para recorrer X para adelante y X atras
-	for (uint32_t i=0; i < longitudVectorIn; i++)
-	{
-		cuentaElementos = 0;
-		for (uint8_t amplitud=1; amplitud <= ventana; amplitud++)
-		{
-			if(longitudVectorIn >= (i + amplitud)) //chequeo que la amplitud de la ventana no supere la logitud del vector
-			{
-				sumaTotal = sumaTotal + vectorIn[i + amplitud];
-				cuentaElementos++;
-			}
-			if((i - amplitud) >= 0)
-			{
-				sumaTotal = sumaTotal + vectorIn[i - amplitud];
-				cuentaElementos++;
-			}
-		}
-	vectorOut[i] = sumaTotal/cuentaElementos;
-
-	}
-}
-
-
 
 static void PrivilegiosSVC (void)
 {

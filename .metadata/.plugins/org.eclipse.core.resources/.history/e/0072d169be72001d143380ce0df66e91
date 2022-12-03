@@ -153,7 +153,7 @@ void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t long
  return: none
  */
 
-void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn)
+void filtroVentana10(unit16_t * vectorIn, unit16_t * vectorOut, uint32_t longitudVectorIn)
 {
 	uint32_t sumaTotal = 0; //La utiliza para acumular los valores del vector
 	uint8_t cuentaElementos = 0; //Lo utilizo para calcular el promedio
@@ -174,7 +174,7 @@ void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitu
 				cuentaElementos++;
 			}
 		}
-	vectorOut[i] = sumaTotal/cuentaElementos;
+	vectorOut[i] = sumaTotal/cuentaElemntos;
 
 	}
 }

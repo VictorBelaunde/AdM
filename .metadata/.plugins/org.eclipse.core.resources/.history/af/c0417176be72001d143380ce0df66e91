@@ -174,7 +174,7 @@ void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitu
 				cuentaElementos++;
 			}
 		}
-	vectorOut[i] = sumaTotal/cuentaElementos;
+	vectorOut[i] = sumaTotal/cuentaElemntos;
 
 	}
 }

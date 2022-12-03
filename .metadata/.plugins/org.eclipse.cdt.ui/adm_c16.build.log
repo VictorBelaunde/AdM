@@ -1,12 +1,12 @@
-23:41:57 **** Incremental Build of configuration Debug for project adm_c16 ****
+00:56:27 **** Incremental Build of configuration Debug for project adm_c16 ****
 make -j7 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:256:18: warning: unused variable 'Resultado' [-Wunused-variable]
-  256 |   const uint32_t Resultado = asm_sum (5, 3);
+../Core/Src/main.c:291:18: warning: unused variable 'Resultado' [-Wunused-variable]
+  291 |   const uint32_t Resultado = asm_sum (5, 3);
       |                  ^~~~~~~~~
-../Core/Src/main.c:245:12: warning: unused variable 'escalar' [-Wunused-variable]
-  245 |   uint32_t escalar = 10;
+../Core/Src/main.c:280:12: warning: unused variable 'escalar' [-Wunused-variable]
+  280 |   uint32_t escalar = 10;
       |            ^~~~~~~
 ../Core/Src/main.c: At top level:
 ../Core/Src/main.c:43:12: warning: array 'vector' assumed to have one element
@@ -30,5 +30,5 @@ Finished building: adm_c16.bin
 Finished building: adm_c16.list
  
 
-23:41:58 Build Finished. 0 errors, 4 warnings. (took 726ms)
+00:56:28 Build Finished. 0 errors, 4 warnings. (took 1s.81ms)
 
