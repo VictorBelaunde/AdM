@@ -76,6 +76,10 @@ void asm_productoEscalar32(uint32_t * vectorIn, uint32_t * vectorOut, uint32_t l
 //Funcion asembler Eje 3
 void asm_productoEscalar16(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
 
+//Funcion asembler Eje 4
+void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
