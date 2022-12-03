@@ -10,6 +10,7 @@
 .global asm_productoEscalar16
 .global asm_productoEscalar12
 .global asm_pack32to16
+.global asm_max
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -204,5 +205,52 @@
 			bne pack32to16_bucle
 		pop {r3}
 		bx lr
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C": Ejercicio 7
+@
+@ Parametros recibidos:
+@   r0: dirección de memoria de inicio del vectorIn
+@	r1: longitud del vectorIn
+@ Variables
+@	r2: registro para cargar valor maximo
+@	r3: resitro para cargar posicion max
+@	r4: registro contador de posicion
+@	r5: registro auxiliar
+.thumb_func
+	asm_max:
+		push {r2-r5}
+		mov r2, 0
+		mov r3, 0
+		mov r4, 0
+		asm_max_bucle:
+			ldr r5, [r0]
+			cmp r5, r2
+			bgt salta_if		@ Salta las siguientes 2 lineas si r5 es mayor que r2
+			mov r2, r4			@ Gaurado los valores nuevos
+			mov r3, r1
+			salta_if:
+			add r4, 1
+			subs r1, 1
+			bne asm_max_bucle
+		pop {r2-r5}
+		bx lr
+
+@int32_t max (int32_t * vectorIn, uint32_t longitud)
+@{
+@	uint32_t valorMaximo = 0;
+@	uint32_t posicionMaximo = 0;
+@	for(uint32_t i=0; i<longitud; i++)
+@	{
+@		if (vectorIn[i] > valorMaximo)
+@		{
+@			valorMaximo = vectorIn[i];
+@			posicionMaximo = i;
+@		}
+@	}
+@	return posicionMaximo;
+@}
 
 

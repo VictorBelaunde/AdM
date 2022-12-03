@@ -77,8 +77,10 @@ void asm_productoEscalar32(uint32_t * vectorIn, uint32_t * vectorOut, uint32_t l
 void asm_productoEscalar16(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
 
 //Funcion asembler Eje 4
-void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
+void asm_productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar);
 
+
+int32_t asm_max (int32_t * vectorIn, uint32_t longitud);
 
 /* USER CODE END PFP */
 
@@ -197,7 +199,7 @@ void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud)
  */
 int32_t max (int32_t * vectorIn, uint32_t longitud)
 {
-	uint32_t valorMaximo = 0;
+	int32_t valorMaximo = -2147483648; //valor maximo con signo
 	uint32_t posicionMaximo = 0;
 	for(uint32_t i=0; i<longitud; i++)
 	{
