@@ -73,3 +73,12 @@ R: Son complemento de las instrucciones y se utilizan para comprobar resultados,
 
 ### 2. ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo
 R: Este sufijo es para realizar la operacion y luego actualizar el flag de estado. eje "adds r0, 1".
+
+###3. ¿Qué utilidad tiene la implementación de instrucciones de aritmética saturada? Dé un ejemplo con operaciones con datos de 8 bits.
+R: La aritmetica saturada puede ser utilizada para procesar señales, controlar el resultado de una operación o "convertir" un número de 32bit a 16bit por ejemplo. Eje: usat r4, #8, r4.
+
+###4. Describa brevemente la interfaz entre assembler y C ¿Cómo se reciben los argumentos de las funciones? ¿Cómo se devuelve el resultado? ¿Qué registros deben guardarse en la pila antes de ser modificados?
+R: Para trabajar entre C y asembler es necesario declarar la función en C y luego exportar los simbolos (.global asm_zeros) en asembler para que el linker de C la encuentre. En asembler los argumentos se reciben por los primeros 4 registros (R0, R1, R2 y R3), y de necesitar devolver un resultado en la función lo hace por medio del registro R4. El resto de los registros antes de utilizarlos se debe resguardar su contenido en la pila con un Push y antes de finalizar devolverlo con un Pop.
+
+###5. ¿Qué es una instrucción SIMD? ¿En qué se aplican y que ventajas reporta su uso? Dé un ejemplo.
+R: SIMD es una manera de acelerar el procesamiento con varios elementos a la vez en vez de lo tradicional que sería uno solo. Se utiliza mucho para DSP (procesamiento digital de señales). Divide la capacidad del registro en 2 o en 4 como si fueran de 16bit u 8bit respectivamente, con la particularidad que cada uno de ellos actua independiente del resto. 
