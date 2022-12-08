@@ -65,7 +65,16 @@ R: Los micros ARM Cortex incluye un timer llamado SysTick que implementan los fa
 Este periférico usa un contador descendente, cuando la cuenta está en 0 y dispara un evento, el registro de cuenta se recarga con un valor de “precarga” establecido por el programador y seguirá descontando a partir de ese valor.
 
 ### 18. ¿Qué funciones cumple la unidad de protección de memoria (MPU)?
-R:La Unidad de protección de memoria es una unidad programable que permite que el programa gestione los permisos de acceso a la memoria. Supervisa las transacciones, incluidas las búsquedas de instrucciones y los accesos a datos del procesador, y puede detectar una violación de acceso. El  MPU permite que el programa privilegiado defina regiones de memoria y asigne permisos de acceso a memoria.
+R:La Unidad de protección de memoria es una unidad programable que permite que el programa gestione los permisos de acceso a la memoria. Supervisa las transacciones, incluidas las búsquedas de instrucciones y los accesos a datos del procesador, y puede detectar una violación de acceso. El  MPU permite que el programa privilegiado defina regiones de memoria y asigne permisos de acceso a memoria. La MPU está por defecto deshabilitada. Si se la quiere utilizar se deberá configurar manualmente para el sistema en cuestión.
+
+### 19. ¿Cuántas regiones pueden configurarse como máximo? ¿Qué ocurre en caso de haber solapamientos de las regiones? ¿Qué ocurre con las zonas de memoria no cubiertas por las regiones definidas?
+R: Las regiones que se pueden configurar son 8, Las regiones de memoria deben estar alineadas a un múltiplo de su tamaño. Si los permisos de la zona de memoria accedida son violados, puede ocurrir excepciones como HardFault o MemManage. En caso que el SO acceda a un región no definida puede suceder el reinicio de CPU.
+
+### 20. ¿Para qué se suele utilizar la excepción PendSV? ¿Cómo se relaciona su uso con el resto de las excepciones? Dé un ejemplo
+R: PendSV son excepciones diseñadas para operaciones en FreeRTOS tales como system calls y cambios de contexto. FreeRTOS utiliza esta función para mostrar el cambio de tareas. Si al momento de ejecutarse esta excepción, no hay excepciones o interrupciones de mayor prioridad que deban ejecutarse, se ejecuta la función de excepción PendSV.
+
+### 22. ¿Para qué se suele utilizar la excepción SVC? Expliquelo dentro de un marco de un sistema operativo embebido.
+R: 
 
 ## ISA
 ### 1. ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo 
@@ -74,11 +83,11 @@ R: Son complemento de las instrucciones y se utilizan para comprobar resultados,
 ### 2. ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo
 R: Este sufijo es para realizar la operacion y luego actualizar el flag de estado. eje "adds r0, 1".
 
-###3. ¿Qué utilidad tiene la implementación de instrucciones de aritmética saturada? Dé un ejemplo con operaciones con datos de 8 bits.
+### 3. ¿Qué utilidad tiene la implementación de instrucciones de aritmética saturada? Dé un ejemplo con operaciones con datos de 8 bits.
 R: La aritmetica saturada puede ser utilizada para procesar señales, controlar el resultado de una operación o "convertir" un número de 32bit a 16bit por ejemplo. Eje: usat r4, #8, r4.
 
-###4. Describa brevemente la interfaz entre assembler y C ¿Cómo se reciben los argumentos de las funciones? ¿Cómo se devuelve el resultado? ¿Qué registros deben guardarse en la pila antes de ser modificados?
+### 4. Describa brevemente la interfaz entre assembler y C ¿Cómo se reciben los argumentos de las funciones? ¿Cómo se devuelve el resultado? ¿Qué registros deben guardarse en la pila antes de ser modificados?
 R: Para trabajar entre C y asembler es necesario declarar la función en C y luego exportar los simbolos (.global asm_zeros) en asembler para que el linker de C la encuentre. En asembler los argumentos se reciben por los primeros 4 registros (R0, R1, R2 y R3), y de necesitar devolver un resultado en la función lo hace por medio del registro R4. El resto de los registros antes de utilizarlos se debe resguardar su contenido en la pila con un Push y antes de finalizar devolverlo con un Pop.
 
-###5. ¿Qué es una instrucción SIMD? ¿En qué se aplican y que ventajas reporta su uso? Dé un ejemplo.
-R: SIMD es una manera de acelerar el procesamiento con varios elementos a la vez en vez de lo tradicional que sería uno solo. Se utiliza mucho para DSP (procesamiento digital de señales). Divide la capacidad del registro en 2 o en 4 como si fueran de 16bit u 8bit respectivamente, con la particularidad que cada uno de ellos actua independiente del resto. 
+### 5. ¿Qué es una instrucción SIMD? ¿En qué se aplican y que ventajas reporta su uso? Dé un ejemplo.
+R: SIMD es una manera de acelerar el procesamiento con varios elementos a la vez en vez de lo tradicional que sería uno solo. Se utiliza mucho para DSP (procesamiento digital de señales). Divide la capacidad del registro en 2 o en 4 como si fueran de 16bit u 8bit respectivamente, con la particularidad que cada uno de ellos actua independiente del resto. Eje sadd16 r0,r1,r2 
