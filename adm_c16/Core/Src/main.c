@@ -219,6 +219,61 @@ int32_t max (int32_t * vectorIn, uint32_t longitud)
 	return posicionMaximo;
 }
 
+/*
+ EJERCICIO 8
+ Autor: Victor Belaunde
+ Brief: Función que recibe un vector de muestras signadas de 32 bits y lo decime
+ descartando una cada N muestras. (Sacar cada N elementos uno).
+*/
+void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N)
+{
+	uint32_t i;
+	uint32_t j = 0; //indice para el vector de salida porque tendrá menos elementos que el de entrada
+	uint32_t n = 0; //varible para contar hasta N
+	for(i = 0; i < longitud; i++)
+	{
+		n = n + 1;
+
+		if (n != N)
+		{
+			vectorOut[j] = vectorIn[i];
+			j = j + 1;
+
+		}
+		else
+		{
+			n = 0; //reseteo la cuenta hasta N
+		}
+
+	}
+
+}
+
+/*
+ EJERCICIO 9
+ Autor: Victor Belaunde
+ Brief: Función que recibe un vector de muestras no signadas de 16 bits e invierta su orden
+*/
+void invertir (uint16_t * vector, uint32_t longitud)
+{
+	uint32_t inicio;
+	uint32_t fin;
+	fin = longitud - 1;
+	inicio = 0;
+	uint16_t valorInicio;
+	uint16_t valorFin;
+
+	while (inicio < fin)
+	{
+		valorInicio = vector[inicio];
+		valorFin = vector[fin];
+		vector[inicio] = valorFin;
+		vector[fin] = valorInicio;
+		fin = fin - 1;
+		inicio = inicio + 1;
+	}
+}
+
 
 
 
