@@ -11,6 +11,7 @@
 .global asm_productoEscalar12
 .global asm_pack32to16
 .global asm_max
+.global asm_downsampleM
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -253,4 +254,35 @@
 @	return posicionMaximo;
 @}
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C": Ejercicio 8
+@
+@ Parametros recibidos:
+@   r0: dirección de memoria de inicio del vectorIn
+@	r1: dirección de memoria de inicio del vectorOut
+@	r2: longitud del vector
+@	r3: valor de N
+@ Variables
+@	r4: variable auxiliar para r0
+@	r5: resitro para cargar posicion max
 
+
+.thumb_func
+	asm_downsampleM:
+		push {r4-r5}				 	@ Resguardo valores de los registros en la pila
+		mov r5, 0						@ Inicializo r5
+		asm_downsampleM_bucle:
+			add r5, 1					@ Sumo 1 para comenzar con el elemento a leer
+			ldr r4, [r0], #4			@ Cargo el vectorIn y me desplazo una posición 32bit
+			cmp r5, r3					@ Comparo r5 con la variable N (elemento a descartar)
+			ite eq						@ Si la operacion anterior es igual
+				moveq r5, 0				@ Si es igual pongo a 0 el registro r5
+				strne r4, [r1], #4		@ Si no es igual copio el valor en el vectorOut y me desplazo una posición
+			subs r2, 1					@ Resto en 1 el registro de longitud actualizo con S para actualizar flags
+			bne asm_downsampleM_bucle
+		pop {r4-r5}						@ Antes de salir recupero los valores iniciales de los registros
+		bx lr							@ Vuelvo a la dirección donde se invocó a la función
+
+@
+@ void asm_downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
+@
