@@ -253,6 +253,8 @@
 @	}
 @	return posicionMaximo;
 @}
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C": Ejercicio 8
@@ -264,7 +266,7 @@
 @	r3: valor de N
 @ Variables
 @	r4: variable auxiliar para r0
-@	r5: resitro para cargar posicion max
+@	r5: resitro para variable N
 
 
 .thumb_func
@@ -286,3 +288,42 @@
 @
 @ void asm_downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
 @
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C": Ejercicio 9
+@
+@ Parametros recibidos:
+@   r0: dirección de memoria de inicio del vector
+@	r1: longitud del vector
+@ Variables
+@	r2: contador para elementos inicio
+@	r3: contador para elementos fin
+@	r4: variable auxiliar para valores inicio
+@	r5: variable auxiliar para valores fin
+
+.thumb_func
+	asm_invertir:
+		push {r2-r5}
+		mov r2, 2					@ Cargo el valor INICIO para usarlo en la inicialización de r3
+		mov r3, r1					@ Cargo la cantidad de elementos qque tiene el vector
+		sub r3, 1					@ Cargo r3 con el elemento  FIN - 1
+		mul r3, r2					@ Obtengo los bytes a desplazarme en memoria para obtener el elementro FIN - 1
+		mov r2, 0					@ Cargo r2 con 0 el primer elemento del vector
+		asm_invertir_bucle:
+			ldrh r4, [r0, r2]		@ Cargo el elemento INICIO
+			ldrh r5, [r0, r3]		@ Cargo el elemento FIN
+			strh r4, [r0, r3]		@ Traspaso los valores leidos en los elementos invertidos
+			strh r5, [r0, r2]		@ Traspaso los valores leidos en los elementos invertidos
+			add r2, 2				@ Posiciono r2 en el elemento siguiente INICIO + 1
+			sub r3, 2				@ Posiciono r3 en el elemento siguiente FIN - 1
+			cmp r3, r2				@ Comparo ambos elementos
+			bgt	asm_invertir_bucle 	@ Si r3 es menor a r2 entonces continuo en el bucle
+		pop {r2-r5}					@ Antes de salir recupero los valores iniciales de los registros
+		bx lr
+@
+@ void asm_invertir(uint16_t * vector, uint32_t longitud);
+@
+@@@@@@@@@@@@@@@@@@@@@@@@@@
+

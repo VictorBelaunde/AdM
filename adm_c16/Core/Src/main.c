@@ -85,6 +85,9 @@ int32_t asm_max (int32_t * vectorIn, uint32_t longitud);
 //Funcion asembler 8
 void asm_downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
 
+//Funcion asembler Eje 9
+void asm_invertir(uint16_t * vector, uint32_t longitud);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
