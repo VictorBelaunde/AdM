@@ -37,7 +37,13 @@ R: Se llama modelo de registro ortogonal porque cualquier Registro puede utiliza
 
 
 ### 8. ¿Qué ventajas presenta el uso de intrucciones de ejecución condicional (IT)? Dé un ejemplo
-R:
+R: La ventaja de utilizar IT es que no cambia la ejecución del código, con esto quiero decir que continua con la secuencia hasta 4 instruciones mas (2 por positivo y 2 por negativo), partiendo de una intrucción de control condicional. Por lo tanto, es utilizado para condicionales con pocas instrucciones. Por ejemplo:  
+```
+ITTE NE
+ANDNE r0,r0,r1 
+ADDNE r2,r2,#1 
+MOVEQ r2,r3
+````
 
 ### 9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault)
 R:
@@ -54,10 +60,10 @@ R: El CMSIS es una capa de abstracción del hardware facilitando la programació
 ### 15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo
 R:
 
-### 17. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
+### 16. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
 R:
 
-### 16. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
+### 17. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
 R:
 
 ### 17. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
