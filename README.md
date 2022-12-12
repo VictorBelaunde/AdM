@@ -47,7 +47,8 @@ MOVEQ r2,r3
 ````
 
 ### 9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault)
-R:
+R: Estas 3 excepciones son las más prioritarias y sus niveles de prioridad son fijos, a diferencia de las otras excepciones. 
+Reset: excepción número 1, con prioridad -3 (la más alta). NMI: excepción número 2, con prioridad -2. HardFault: excepción número 3, con prioridad -1. 
 
 ### 10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado a funciones y su retorno?
 R: La pila se utiliza para almacenar en memoria en modo LiFo (ultimo en llagar - primero en salir) para utilizar el stack de memoria y son incorporadas las palabras de 32 bits con PUSH y sacado con POP para luego pasarlo al registro y operar. Un puntero me indica la dirección de memoria utilizada y es utilizado tanto para incorporar (SP + 1) o leer (SP, que luego decrece en 1 su dirección). Cuando se ejecuta una función debemos preservar los valores de los registros haciendo un PUSH al comenzar y luego un POP antes de salir, si es que esa función utiliza registros sino corremos el riesgo de perder los valores originales de la aplicación.
