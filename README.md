@@ -25,6 +25,7 @@ R: El mapa de memoeria es de 4Gb. Este espacio está dividido por varias regione
 
 
 ### 5. ¿Qué ventajas presenta el uso de los “shadowed pointers” del PSP y el MSP?
+R: En RTOS el kernel o las interrupciones tiene acceso a el MSP, mientras que las tareas acceden a las PSP de cada tarea. Cada stack pointer tiene una capacidad determinada que puede ser modificada. Cada tarea solo puede acceder a su PSP y no al MSP. En RTOS la MPU define qué parte de la pila puede acceder cada task. Para cada PSP y el MSP la función PUSH y POP maneja la pila referida a la tarea que se está ejecutando o el kernel, protegiendo al resto de las particiones de la pila. En caso de que una task esté corrupta no puede modificar otros PSP ni el MSP por lo que el error no se propaga.
 
 ### 6. Describa los diferentes modos de privilegio y operación del Cortex M, sus relaciones y como se conmuta de uno al otro. Describa un ejemplo en el que se pasa del modo privilegiado a no priviligiado y nuevamente a privilegiado.
 R: Los diferentes modos de operación son Thread en modo privilegiado que se ejecuta ni bien se corre la aplicación y permite acceder a todas las instrucciones y recursos del micro, en cambio Thread en modo NO privilegiado (corren la mayoría de las aplicaciones) se pasa por ejecución de software y solo puede acceder a parte de la memoria y puertos. Algo para destacar es que una vez se pasa a Thread no provilegiado no es posible volver a privilegiado sino es a través del modo handler.
@@ -58,13 +59,14 @@ R: Las interrupciones pueden ser internas o externas (producto de un evento espo
 R: El CMSIS es una capa de abstracción del hardware facilitando la programación y uso de los recursos del micro. Genera una capa de software que separa al programador del hardware permitiendo en un nivel superior y con una interface unificada para todos los cortex. Quien provee es CMSIS es el mismo ARM para que cada fabricante tenga la posibilidad de unificar su hardware con el mercado.
 
 ### 15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo
-R:
+R: En el micro cuando se produce una excepción que se encuentra habilitada, guarda en la pila el conjunto de registros R0-R3, LR y PSR (stacking), formando la trama de la pila, luego ejecuta la Rutina de Interrrupción de Servicio (ISR) a partir de la tabla de vectores de interrupción.
 
 ### 16. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
 R:
 
 ### 17. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
-R:
+R: El Tail-chaining es un procesamiento consecutivo de excepciones sin la sobrecarga de ahorro de estado y restauración entre interrupciones. El procesador omite el pop de ocho registros y el push de ocho registros cuando sale de un ISR y entra en otro porque esto no tiene efecto en el contenido de la pila. El procesador se encadena si una interrupción pendiente tiene mayor prioridad que todas las excepciones apiladas.
+En cambio Late Arrival se produce en una excepción de alta prioridad después de que haya comenzado la obtención del vector de la excepción original, la excepción que llega tarde no puede usar el contexto ya apilado para la excepción original. En este caso, el controlador de excepciones original se reemplaza y su contexto se guarda en la pila.
 
 ### 17. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
 R: Los micros ARM Cortex incluye un timer llamado SysTick que implementan los fabricantes. Está pensado para usarlo como base de tiempos, así que es perfecto para el concepto de temporización y su aprovechamiento en las tareas como en SO como FreeRTOS.
@@ -80,7 +82,7 @@ R: Las regiones que se pueden configurar son 8, Las regiones de memoria deben es
 R: PendSV son excepciones diseñadas para operaciones en FreeRTOS tales como system calls y cambios de contexto. FreeRTOS utiliza esta función para mostrar el cambio de tareas. Si al momento de ejecutarse esta excepción, no hay excepciones o interrupciones de mayor prioridad que deban ejecutarse, se ejecuta la función de excepción PendSV.
 
 ### 22. ¿Para qué se suele utilizar la excepción SVC? Expliquelo dentro de un marco de un sistema operativo embebido.
-R: 
+R:  SVC es el modo usado tras el reinicio de la máquina y tras una llamada al sistema. También es el modo usado por el kernel en general. Una vez, inicializada la pila del modo SVC, el sistema ya podrá ejecutar código en C, por lo que se procede a llamar a la función “init” que termina de inicializar todo el entorno de ejecución.
 
 ## ISA
 ### 1. ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo 
