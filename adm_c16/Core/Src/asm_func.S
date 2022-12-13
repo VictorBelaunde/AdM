@@ -12,6 +12,7 @@
 .global asm_pack32to16
 .global asm_max
 .global asm_downsampleM
+.global asm_filtroVentana10
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -185,6 +186,63 @@
 @}
 @@@@@@@@@@@@@@@@@@@@@@@@@@
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C": Ejercicio 5
+@
+@ Parámetros recibidos:
+@   r0: dirección de memoria del vectorIn
+@   r1: dirección de memoria del vectorOut
+@	r2: longitud del vector
+@ Variables
+@	r3: contador i
+@	r4: contador x
+@	r5: variable auxiliar de indice
+@	r6: auxiliar del registro r0
+@	r7: suma de datos
+@	r8: contador de samples
+@	r9: auxiliar para r2
+
+.thumb_func
+	asm_filtroVentana10:
+		push {r3-r9}
+		mov r3, 0							@ Inicializar i
+		mov r9, r2
+		asm_filtroVentana10_bucle:
+		mov r4, 5							@ Inicializa x en 5
+		mov r6, 0
+		mov r7, 0
+		mov r8, 0
+		asm_filtroVentana10_bucle_a:		@ Bucle a para la ventana del filtro
+			subs r5, r3, r4					@ controlo si salgo de rango
+			lsl r5, 1						@ Multiplico por 2 para desplazar  2 bytes
+			ITTT PL							@ Controlo i es positivo o igaul a 0
+			ldrhPL r6, [r0, r5]				@ Leo el índice correspondiente de r0
+			addPL r7, r6					@ Acumulo el valor parte alta
+			addPL r8, 1						@ Sumo un sample
+			subs r4, 1
+		bne asm_filtroVentana10_bucle_a
+		mov r4, 5							@ actualizo en 5 a x
+		asm_filtroVentana10_bucle_b:
+			add r5, r3, r4					@ controlo si salgo de rango
+			cmp r9, r5						@ Comparo con el límite superior del vector
+			lsl r5, 1						@ Multiplico por 2 para desplazar  2 bytes
+			ITTT hi							@ Controlo i es positivo o igaul a 0
+				ldrhhi r6, [r0, r5]			@ Leo el índice correspondiente de r0
+				addhi r7, r6				@ Acumulo el valor parte alta
+				addhi r8, 1					@ Sumo un sample
+			subs r4, 1
+		bne asm_filtroVentana10_bucle_b
+		udiv r7, r7, r8
+		strh r7, [r1, r3]
+		add r3, 1							@ Sumo uno a i
+		subs r2, 1
+		bne asm_filtroVentana10_bucle
+		pop {r3-r9}
+		bx lr
+
+@	void asm_filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn);
+@
+@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C": Ejercicio 6
