@@ -284,6 +284,28 @@ void invertir (uint16_t * vector, uint32_t longitud)
 }
 
 
+/*
+ EJERCICIO 10
+ Autor: Victor Belaunde
+ Brief: Función que recibe un vector con valores de 16 bits (signados), que corresponden a muestras de audio.
+ La función debe introducir un “eco” de la mitad de la amplitud de la muestra original a los x elementos del vector original.
+*/
+
+void vector_eco (int16_t * vectorIn, int16_t * vectorOut, uint16_t longitud, uint16_t inicio_eco)
+{
+	uint16_t i;
+	for (i = 0; i < longitud; i++)
+	{
+		if (i >= inicio_eco)
+		{
+			vectorOut[i] = (vectorIn[i - inicio_eco] / 2) + vectorIn[i];
+		}
+		else
+		{
+			vectorOut[i] = vectorIn[i];
+		}
+	}
+}
 
 
 static void PrivilegiosSVC (void)
