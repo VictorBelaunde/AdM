@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "string.h"
+#include "stdio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -96,6 +97,11 @@ void asm_filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t lon
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+int __io_putchar (int ch)
+{
+    HAL_UART_Transmit (&huart3, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
+    return ch;
+}
 
 /*
  EJERCICIO 1
@@ -364,6 +370,7 @@ static void PrivilegiosSVC (void)
 }
 /* USER CODE END 0 */
 
+
 /**
   * @brief  The application entry point.
   * @retval int
@@ -388,6 +395,9 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
+  // Activa contador de ciclos (iniciar una sola vez)
+  DWT->CTRL |= 1 << DWT_CTRL_CYCCNTENA_Pos;
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -400,22 +410,67 @@ int main(void)
   /*
    EJERCICIO 1
    */
-  zeros(*vector, longitud);
+  //zeros(*vector, longitud);
 
   uint32_t vector[4] = { 4, 5, 6, 7 };    // Agregar vector de prueba
-  uint32_t vectorOut[4] = { 0, 0, 0, 0 };
   uint32_t escalar = 10;
 
-  asm_zeros (vector, 4);
-  // Agregar llamado a función
-  asm_productoEscalar32(vector, vectorOut, 4, 10);
-
-
+  uint32_t vectorIn[7] = {1,2,3,4,5,6,7};     // Vector para pruebas de 32bits
+  uint32_t vectorOut[7] = {0,0,0,0,0,0,0};    // Vector para pruebas de 32bits
+  uint16_t vectorIn16[7] = {1,2,3,4,5,6,7};   // Vector para pruebas de 16bits
+  uint16_t vectorOut16[7] = {0,0,0,0,0,0,0};  // Vector para pruebas de 16bits
+  int16_t vectorIn16_i[7] = {1,2,3,4,5,6,7};   // Vector para pruebas de 16bits con signo
+  int16_t vectorOut16_i[7] = {0,0,0,0,0,0,0};  // Vector para pruebas de 16bits con signo
 
 
   PrivilegiosSVC ();
 
-  const uint32_t Resultado = asm_sum (5, 3);
+  printf("Comienzo de conteo ");
+  fflush( stdout );
+
+  volatile uint32_t Ciclos;
+
+  // Medición funciones Escalar12
+  DWT->CYCCNT = 0;
+  productoEscalar12 (vectorIn16, vectorOut16, 7, 10);
+  // Obtiene cantidad de ciclos que demoró la función
+  Ciclos = DWT->CYCCNT;
+  printf("Escalar12 C: %lu\r\n",Ciclos);
+  fflush( stdout );
+
+  DWT->CYCCNT = 0;
+  asm_productoEscalar12(vectorIn16, vectorOut16, 7, 10);
+  // Obtiene cantidad de ciclos que demoró la función
+   Ciclos = DWT->CYCCNT;
+  printf("Escalar12 Asm: %lu\r\n",Ciclos);
+  fflush( stdout );
+
+  // Medición funciones Filtro Ventana
+  DWT->CYCCNT = 0;
+  filtroVentana10 (vectorIn16, vectorOut16, 7);
+  // Obtiene cantidad de ciclos que demoró la función
+ Ciclos = DWT->CYCCNT;
+ printf("FiltroVentana C: %lu\r\n",Ciclos);
+  fflush( stdout );
+
+
+   DWT->CYCCNT = 0;
+   asm_filtroVentana10 (vectorIn16, vectorOut16, 7);
+   // Obtiene cantidad de ciclos que demoró la función
+  Ciclos = DWT->CYCCNT;
+  printf("FiltroVentana Asm: %lu\r\n",Ciclos);
+   fflush( stdout );
+
+   // Medición funciones Eco
+   DWT->CYCCNT = 0;
+   vector_eco(vectorIn16_i, vectorOut16_i, 7, 4);
+   // Obtiene cantidad de ciclos que demoró la función
+  Ciclos = DWT->CYCCNT;
+  printf("Eco C: %lu\r\n",Ciclos);
+   fflush( stdout );
+
+
+  //const uint32_t Resultado = asm_sum (5, 3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
