@@ -92,6 +92,10 @@ void asm_invertir(uint16_t * vector, uint32_t longitud);
 //Funcion asembler Eje 5
 void asm_filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn);
 
+//Funcion asembler Eje 10
+void asm_vector_eco(int16_t * vectorIn, int16_t * vectorOut, uint16_t longitud, uint16_t inicio_eco);
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -425,7 +429,7 @@ int main(void)
 
   PrivilegiosSVC ();
 
-  printf("Comienzo de conteo ");
+  printf("Inicio de conteo... \r\n");
   fflush( stdout );
 
   volatile uint32_t Ciclos;
@@ -445,6 +449,7 @@ int main(void)
   printf("Escalar12 Asm: %lu\r\n",Ciclos);
   fflush( stdout );
 
+
   // Medición funciones Filtro Ventana
   DWT->CYCCNT = 0;
   filtroVentana10 (vectorIn16, vectorOut16, 7);
@@ -453,13 +458,13 @@ int main(void)
  printf("FiltroVentana C: %lu\r\n",Ciclos);
   fflush( stdout );
 
-
    DWT->CYCCNT = 0;
    asm_filtroVentana10 (vectorIn16, vectorOut16, 7);
    // Obtiene cantidad de ciclos que demoró la función
   Ciclos = DWT->CYCCNT;
   printf("FiltroVentana Asm: %lu\r\n",Ciclos);
    fflush( stdout );
+
 
    // Medición funciones Eco
    DWT->CYCCNT = 0;
@@ -469,6 +474,12 @@ int main(void)
   printf("Eco C: %lu\r\n",Ciclos);
    fflush( stdout );
 
+   DWT->CYCCNT = 0;
+   asm_vector_eco(vectorIn16_i, vectorOut16_i, 7, 4);
+   // Obtiene cantidad de ciclos que demoró la función
+  Ciclos = DWT->CYCCNT;
+  printf("Eco Asm: %lu\r\n",Ciclos);
+   fflush( stdout );
 
   //const uint32_t Resultado = asm_sum (5, 3);
   /* USER CODE END 2 */
